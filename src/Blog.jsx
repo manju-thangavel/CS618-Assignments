@@ -22,7 +22,6 @@ export function Blog() {
 
   return (
     <div style={{ padding: 8 }}>
-      <h2>Hello Change</h2>
       <CreatePost />
       <br />
       <hr />
