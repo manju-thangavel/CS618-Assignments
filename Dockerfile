@@ -12,7 +12,7 @@ FROM node:20 AS final
 
 WORKDIR /app
 
-COPY --from=build /app ./
+COPY --from=build /build ./
 
 EXPOSE 3000
 
