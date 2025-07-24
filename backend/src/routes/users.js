@@ -23,6 +23,7 @@ export function userRoutes(app) {
     } catch (err) {
       return res.status(400).send({
         error: 'login failed, did you enter the correct username/password?',
+        details: err.message || err.toString(),
       })
     }
   })
