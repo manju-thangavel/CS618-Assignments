@@ -125,7 +125,7 @@ describe('creating posts', () => {
   test('with all parameters should succeed', async () => {
     const post = {
       title: 'Hello Mongoose!',
-      author: 'Huseyin Ergin',
+      author: 'Srimanjunath Thangavel',
       contents: 'This post is stored in a MongoDB database using Mongoose.',
       tags: ['mongoose', 'mongodb'],
     }
@@ -138,7 +138,7 @@ describe('creating posts', () => {
   })
   test('without title should fail', async () => {
     const post = {
-      author: 'Huseyin Ergin',
+      author: 'Srimanjunath Thangavel',
       contents: 'Post with no title',
       tags: ['empty'],
     }
