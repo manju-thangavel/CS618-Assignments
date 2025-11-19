@@ -1,0 +1,5 @@
+.Show the post model code in your editor
+.Run one test for services and show it is passing (either through command line or extension)
+.Run both frontend and backend through command line
+.Browse to the frontend home page to create a post
+.Show that newly created post is displayed right after creating it on the homepage
