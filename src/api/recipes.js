@@ -1,6 +1,6 @@
 // src/api/recipes.js
 
-const API_URL = '/api/v1/recipes';
+const API_URL = import.meta.env.VITE_BACKEND_URL + '/recipes';
 
 export const getRecipes = async () => {
   const res = await fetch(API_URL);

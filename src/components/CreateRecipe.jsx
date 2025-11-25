@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 const CreateRecipe = ({ token, onRecipeCreated }) => {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState(['']);
@@ -16,38 +14,28 @@ const CreateRecipe = ({ token, onRecipeCreated }) => {
 
   const addIngredient = () => setIngredients([...ingredients, '']);
 
-  const queryClient = useQueryClient();
-  const createRecipeMutation = useMutation({
-    mutationFn: async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
       const recipe = {
         title,
         ingredients: ingredients.filter((i) => i.trim()),
         imageUrl,
       };
       const res = await import('../api/recipes.js').then(api => api.createRecipe(token, recipe));
-      return res;
-    },
-    onSuccess: (res) => {
       setTitle('');
       setIngredients(['']);
       setImageUrl('');
       if (onRecipeCreated) onRecipeCreated(res);
-      queryClient.invalidateQueries(['recipes']);
-    },
-    onError: (err) => {
+    } catch (err) {
       setError(err.message);
-    },
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
-    createRecipeMutation.mutate();
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create Recipe</h2>
+      <h2>Be Creative! Share your Recipe to the world!</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <div>
         <label>Title:</label>
