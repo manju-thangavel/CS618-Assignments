@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const CreateRecipe = ({ token, onRecipeCreated }) => {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState(['']);
@@ -32,6 +33,10 @@ const CreateRecipe = ({ token, onRecipeCreated }) => {
       setError(err.message);
     }
   };
+
+  if (!token) {
+    return <div style={{ color: 'red', marginBottom: 16 }}>Please log in to create a recipe.</div>;
+  }
 
   return (
     <form onSubmit={handleSubmit}>
