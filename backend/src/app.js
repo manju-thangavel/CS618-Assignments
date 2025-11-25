@@ -1,3 +1,4 @@
+import './db/models/user.js'
 import express from 'express'
 import { postsRoutes } from './routes/posts.js'
 import { userRoutes } from './routes/users.js'

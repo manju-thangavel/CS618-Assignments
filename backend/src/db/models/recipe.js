@@ -1,24 +1,11 @@
-import mongoose from 'mongoose';
-
-const recipeSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+import mongoose, { Schema } from 'mongoose'
+const recipeSchema = new Schema(
+  {
+    title: { type: String, required: true },
+    ingredients: [{ type: String, required: true }],
+    imageUrl: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
-  ingredients: [{
-    type: String,
-    required: true,
-  }],
-  imageUrl: {
-    type: String,
-    required: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-}, { timestamps: true });
-
-const Recipe = mongoose.model('Recipe', recipeSchema);
-export default Recipe;
+  { timestamps: true },
+)
+export default mongoose.model('Recipe', recipeSchema)
