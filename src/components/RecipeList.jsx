@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getRecipes } from '../api/recipes.js';
 
-const RecipeList = ({ onSelectRecipe }) => {
-  const [recipes, setRecipes] = useState([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    getRecipes()
-      .then(setRecipes)
-      .catch(err => setError(err.message));
-  }, []);
-
+const RecipeList = ({ onSelectRecipe, recipes, error }) => {
   return (
     <div>
       <h2>All Recipes</h2>
