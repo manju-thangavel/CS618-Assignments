@@ -7,22 +7,20 @@ import { useAuth } from '../contexts/AuthContext.jsx'
 export function Header() {
   const [token, setToken] = useAuth()
 
-  if (token) {
-    const { sub } = jwtDecode(token)
-    return (
-      <div>
-        <h1>Welcome to My Blog!</h1>
-        Logged in as <User id={sub} />
-        <br />
-        <button onClick={() => setToken(null)}>Logout</button>
-      </div>
-    )
-  }
-
   return (
     <div>
       <h1>Welcome to My Blog!</h1>
-      <Link to='/login'>Log In</Link> | <Link to='/signup'>Sign Up</Link>
+      <nav>
+        <Link to='/'>Blog</Link> | <Link to='/recipes'>Recipes</Link> | <Link to='/login'>Log In</Link> | <Link to='/signup'>Sign Up</Link>
+      </nav>
+      {token && (
+        <>
+          <br />
+          Logged in as <User id={jwtDecode(token).sub} />
+          <br />
+          <button onClick={() => setToken(null)}>Logout</button>
+        </>
+      )}
     </div>
   )
 }
