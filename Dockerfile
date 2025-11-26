@@ -6,6 +6,15 @@ COPY package-lock.json .
 RUN npm install
 COPY . .
 RUN npm run build
+
+# ---- Run Stage ----
+FROM node:20 AS final
+
+WORKDIR /app
+
+COPY --from=build /build ./
+
 EXPOSE 3000
+
 # Start the SSR server
 CMD ["npm", "start"]
