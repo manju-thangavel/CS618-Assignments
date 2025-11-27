@@ -8,40 +8,17 @@ import { useAuth } from '../contexts/AuthContext.jsx'
 import { getRecipes } from '../api/recipes.js'
 
 export function RecipeApp() {
-  const [selectedRecipeId, setSelectedRecipeId] = useState(null)
-  const [token] = useAuth()
-  const queryClient = useQueryClient()
-  const {
-    data: recipes,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: recipes, error, isLoading } = useQuery({
     queryKey: ['recipes'],
     queryFn: getRecipes,
   })
 
-  const handleRecipeCreated = () => {
-    queryClient.invalidateQueries(['recipes'])
-  }
-
   return (
     <div style={{ padding: 8 }}>
       <Header />
-      <br />
       <hr />
-      <CreateRecipe
-        token={token}
-        onRecipeCreated={handleRecipeCreated}
-      />
-      <br />
-      <hr />
-      <RecipeList
-        onSelectRecipe={setSelectedRecipeId}
-        recipes={recipes}
-        error={error?.message}
-      />
-      <br />
-      <RecipeDetail recipeId={selectedRecipeId} />
+      <h2>All Recipes</h2>
+      <RecipeList recipes={recipes} error={error?.message} />
     </div>
   );
 }

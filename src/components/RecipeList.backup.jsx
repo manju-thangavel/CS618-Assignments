@@ -35,10 +35,11 @@ const RecipeList = ({ onSelectRecipe, recipes, error }) => {
         <ul>
           {(displayRecipes ?? []).map(recipe => (
             <li key={recipe._id}>
-              <h3>{recipe.title}</h3>
-              <div>{recipe.contents}</div>
-              <button style={{marginRight:8}}>Edit</button>
-              <button>Delete</button>
+              <span onClick={() => onSelectRecipe && onSelectRecipe(recipe._id)} style={{ cursor: 'pointer', color: 'blue' }}>
+                {recipe.title}
+              </span>
+              <br />
+              <img src={recipe.imageUrl} alt={recipe.title} style={{ width: '100px' }} />
             </li>
           ))}
         </ul>
