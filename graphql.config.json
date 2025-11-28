@@ -1,0 +1,4 @@
+{
+  "schema": "https://upgraded-guacamole-pjwwv5xwggp4f6qjw-3000.app.github.dev/graphql",
+  "documents": "src/api/graphql/**/*.{js,jsx}"
+}
