@@ -1,3 +1,19 @@
+// Like a recipe
+router.post('/:id/like', requireAuth, async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
+    const userId = req.auth.sub;
+    if (!recipe.likes) recipe.likes = [];
+    if (!recipe.likes.includes(userId)) {
+      recipe.likes.push(userId);
+      await recipe.save();
+    }
+    res.json({ message: 'Recipe liked', likeCount: recipe.likes.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 import express from 'express';
 import Recipe from '../db/models/recipe.js';
 import { requireAuth } from '../middleware/jwt.js';
@@ -20,7 +36,17 @@ router.post('/', requireAuth, async (req, res) => {
 // Get all recipes
 router.get('/', async (req, res) => {
   try {
-    const recipes = await Recipe.find().populate('user', 'username');
+    let recipes;
+    if (req.query.sort === 'popular') {
+      recipes = await Recipe.aggregate([
+        { $addFields: { likeCount: { $size: { $ifNull: ["$likes", []] } } } },
+        { $sort: { likeCount: -1 } }
+      ]);
+      // Optionally populate user info
+      // You may need to refetch with .populate if you want usernames
+    } else {
+      recipes = await Recipe.find().populate('user', 'username');
+    }
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ error: err.message });
