@@ -5,7 +5,15 @@ export const AuthContext = createContext({
   setToken: () => {},
 })
 export const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState(null)
+  const [token, setTokenState] = useState(() => localStorage.getItem('token'))
+  const setToken = (newToken) => {
+    setTokenState(newToken)
+    if (newToken) {
+      localStorage.setItem('token', newToken)
+    } else {
+      localStorage.removeItem('token')
+    }
+  }
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       {children}
@@ -16,6 +24,5 @@ AuthContextProvider.propTypes = {
   children: PropTypes.element.isRequired,
 }
 export function useAuth() {
-  const { token, setToken } = useContext(AuthContext)
-  return [token, setToken]
+  return useContext(AuthContext)
 }

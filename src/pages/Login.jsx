@@ -6,7 +6,8 @@ import { login } from '../api/users.js'
 import { useAuth } from '../contexts/AuthContext.jsx'
 
 export function Login() {
-  const [, setToken] = useAuth()
+  const auth = useAuth()
+  const setToken = auth.setToken || (Array.isArray(auth) ? auth[1] : undefined)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()

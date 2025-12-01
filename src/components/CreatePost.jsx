@@ -8,7 +8,8 @@ export function CreatePost() {
 
   const [contents, setContents] = useState('')
 
-  const [token] = useAuth()
+  const auth = useAuth()
+  const token = auth.token || (Array.isArray(auth) ? auth[0] : undefined)
 
   const queryClient = useQueryClient()
 

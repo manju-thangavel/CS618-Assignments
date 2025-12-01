@@ -5,13 +5,14 @@ import { User } from './User.jsx'
 import { useAuth } from '../contexts/AuthContext.jsx'
 
 export function Header() {
-  const [token, setToken] = useAuth()
+  const { token, setToken } = useAuth()
 
   return (
     <div>
       <h1>Welcome to My Blog!</h1>
       <nav>
-        <Link to='/'>Blog</Link> | <Link to='/recipes'>Recipes</Link> | <Link to='/login'>Log In</Link> | <Link to='/signup'>Sign Up</Link>
+        <Link to='/'>Blog</Link> | <Link to='/recipes'>Recipes</Link> |{' '}
+        <Link to='/login'>Log In</Link> | <Link to='/signup'>Sign Up</Link>
       </nav>
       {token && (
         <>
