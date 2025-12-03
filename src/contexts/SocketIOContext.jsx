@@ -26,7 +26,6 @@ export function SocketIOProvider({ children }) {
 
     socket.on('notification', (data) => {
       setNotification(data)
-      setTimeout(() => setNotification(null), 8000)
     })
 
     return () => {

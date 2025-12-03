@@ -1,6 +1,6 @@
 import { Server } from 'socket.io'
 
-let io
+export let io
 
 export function initSocket(server) {
   io = new Server(server, {
@@ -11,9 +11,7 @@ export function initSocket(server) {
   })
 
   io.on('connection', (socket) => {
-    // Listen for recipe events and emit notifications
     socket.on('recipe:like', ({ recipeId, userId }) => {
-      // Emit notification to all clients (or filter as needed)
       io.emit('notification', {
         type: 'like',
         recipeId,
@@ -30,14 +28,7 @@ export function initSocket(server) {
         message: `User ${userId} created a new recipe ${recipeId}`,
       })
     })
-
-    // Add more events as needed
   })
 
-  return io
-}
-
-export function getIO() {
-  if (!io) throw new Error('Socket.io not initialized!')
   return io
 }
