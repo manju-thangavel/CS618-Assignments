@@ -1,6 +1,8 @@
 import express from 'express'
 import Recipe from '../db/models/recipe.js'
 import { requireAuth } from '../middleware/jwt.js'
+import { getIO } from '../services/socket.js'
+import { User } from '../db/models/user.js'
 
 const router = express.Router()
 
@@ -14,6 +16,19 @@ router.post('/:id/like', requireAuth, async (req, res) => {
     if (!recipe.likes.includes(userId)) {
       recipe.likes.push(userId)
       await recipe.save()
+      // Emit socket.io notification for like
+      try {
+        const user = await User.findById(userId)
+        getIO().emit('notification', {
+          type: 'like',
+          recipeId: recipe._id,
+          userId,
+          userName: user?.username || userId,
+          message: `User ${user?.username || userId} liked recipe ${recipe._id}`,
+        })
+      } catch (e) {
+        // socket.io not initialized
+      }
     }
     res.json({ likes: recipe.likes, likeCount: recipe.likes.length })
   } catch (err) {
@@ -28,6 +43,19 @@ router.post('/', requireAuth, async (req, res) => {
     const userId = req.auth.sub
     const recipe = new Recipe({ title, ingredients, imageUrl, user: userId })
     await recipe.save()
+    // Emit socket.io notification for new recipe
+    try {
+      const user = await User.findById(userId)
+      getIO().emit('notification', {
+        type: 'new',
+        recipeId: recipe._id,
+        userId,
+        userName: user?.username || userId,
+        message: `User ${user?.username || userId} created a new recipe ${recipe._id}`,
+      })
+    } catch (e) {
+      // socket.io not initialized
+    }
     res.status(201).json(recipe)
   } catch (err) {
     res.status(400).json({ error: err.message })

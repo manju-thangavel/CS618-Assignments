@@ -9,6 +9,7 @@ import { Blog } from './pages/Blog.jsx'
 import { Signup } from './pages/Signup.jsx'
 import { Login } from './pages/Login.jsx'
 import { AuthContextProvider } from './contexts/AuthContext.jsx'
+import { SocketIOProvider } from './contexts/SocketIOContext.jsx'
 import RecipeDetail from './components/RecipeDetail.jsx'
 
 const queryClient = new QueryClient()
@@ -27,12 +28,16 @@ const router = createBrowserRouter([
   { path: '/recipes/:id', element: <RecipeDetailWrapper /> },
 ])
 
-export function App() {
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <RouterProvider router={router} />
+        <SocketIOProvider>
+          <RouterProvider router={router} />
+        </SocketIOProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   )
 }
+
+export default App
